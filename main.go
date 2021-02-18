@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bwa-startup/users"
 	"fmt"
 	"log"
 
@@ -10,10 +11,22 @@ import (
 
 func main() {
 	dsn := "root:@tcp(127.0.0.1:3306)/bwastratup?charset=utf8mb4&parseTime=True&loc=Local"
-	_, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	fmt.Println("Connection Database Success!")
+
+	userRepository := users.NewRepository(db)
+
+	userService := users.NewService(userRepository)
+	userInput := users.RegisterUserInput{}
+	userInput.Name = "Adam Nasrudin"
+	userInput.Occupation = "Programmer"
+	userInput.Email = "email@gmail.com"
+	userInput.Password = "password"
+
+	userService.RegisterUser(userInput)
+	
 }
