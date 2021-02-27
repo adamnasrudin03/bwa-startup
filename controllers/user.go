@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"bwa-startup/auth"
 	"bwa-startup/helpers"
 	"bwa-startup/users"
 	"fmt"
@@ -12,10 +13,11 @@ import (
 
 type userController struct {
 	userService users.Service
+	authService auth.Service
 }
 
-func NewUserController (userService users.Service) *userController{
-	return &userController{userService}
+func NewUserController (userService users.Service, authService auth.Service) *userController{
+	return &userController{userService, authService}
 }
 
 func (h *userController) RegisterUser(c *gin.Context){
@@ -41,7 +43,14 @@ func (h *userController) RegisterUser(c *gin.Context){
 		return
 	}
 
-	formatter := users.FormatUser(user, "JWT token")
+	token, err := h.authService.GenerateToken(user.ID)
+	if err != nil {
+		response := helpers.APIResponse("Register account failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := users.FormatUser(user, token)
 
 	response := helpers.APIResponse("Account has ben registered", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
@@ -77,7 +86,14 @@ func (h *userController) Login(c *gin.Context) {
 		return
 	}
 
-	formatter := users.FormatUser(loggedInUser, "JWT token")
+	token, err := h.authService.GenerateToken(loggedInUser.ID)
+	if err != nil {
+		response := helpers.APIResponse("Loginfailed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := users.FormatUser(loggedInUser, token)
 
 	response := helpers.APIResponse("Login Successfully", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
