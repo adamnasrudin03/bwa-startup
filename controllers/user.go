@@ -46,3 +46,13 @@ func (h *userController) RegisterUser(c *gin.Context){
 	c.JSON(http.StatusOK, response)
 
 }
+
+func (h *userController) login(c *gin.Context) {
+	//step login
+	//user memasukan input (email & password)
+	//input ditangkap handler/controller
+	//mapping dati input user ke input struct
+	//input struct passing ke service 
+	//di service mencari dgn bantuan repositori user dengan email x
+	//mencocokan password
+}
