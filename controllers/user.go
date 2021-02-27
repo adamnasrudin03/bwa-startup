@@ -25,12 +25,16 @@ func (h *userController) RegisterUser(c *gin.Context){
 	var input users.RegisterUserInput
 	err := c.BindJSON(&input)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+		response := helpers.APIResponse("Register account faileds", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
 	}
 
 	user, err := h.userService.RegisterUser(input)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+		response := helpers.APIResponse("Register account failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
 	}
 
 	formatter := users.FormatUser(user, "JWT token")
