@@ -33,7 +33,9 @@ func (h *userController) RegisterUser(c *gin.Context){
 		c.JSON(http.StatusBadRequest, nil)
 	}
 
-	response := helpers.APIResponse("Account has ben registered", http.StatusOK, "success", user)
+	formatter := users.FormatUser(user, "JWT token")
+
+	response := helpers.APIResponse("Account has ben registered", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 
 }
