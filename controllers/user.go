@@ -152,8 +152,9 @@ func (h *userController)  UploadAvatar(c *gin.Context){
 		return
 	}
 
-	//userID harusnya dapat dari JWT
-	userID := 1
+	//get context isinya user yang telah di isi dari authMiddleware
+	currentUser := c.MustGet("currentUser").(users.User)
+	userID := currentUser.ID
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
