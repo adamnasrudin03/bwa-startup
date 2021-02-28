@@ -149,6 +149,7 @@ func (h *campaignController) UploadCampaignImage(c *gin.Context) {
 	}
 
 	currentUser := c.MustGet("currentUser").(users.User)
+	input.User = currentUser
 	userID := currentUser.ID
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
