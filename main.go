@@ -40,6 +40,8 @@ func main() {
 	api.POST("/sessions", userController.Login)
 	api.POST("/email_checkers", userController.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userController.UploadAvatar)
+	api.GET("/users/fetch", authMiddleware(authService, userService), userController.FetchUser)
+
 	router.Run()
 
 	
