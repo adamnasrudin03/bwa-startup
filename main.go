@@ -49,6 +49,7 @@ func main() {
 	api.GET("/users/fetch", authMiddleware(authService, userService), userController.FetchUser)
 
 	api.GET("/campaigns", campaignController.GetCampaigns)
+	api.GET("/campaigns/:id", campaignController.GetCampaign)
 
 	router.Run()
 
