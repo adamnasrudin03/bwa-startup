@@ -9,6 +9,7 @@ import (
 type Service interface {
 	GetCampaigns(userID int) ([]Campaign, error)
 	GetCampaign(input GetCampaignDetailInput) (Campaign, error)
+	CreateCampaign(input CreateCampaignInput) (Campaign, error)
 }
 
 type service struct {
