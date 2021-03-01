@@ -47,7 +47,7 @@ func main() {
 	campaignController := controllers.NewCampaignController(campaignService)
 	transactionController := controllers.NewTransactionController(transactionService)
 
-	userWebController := webController.NewUserController()
+	userWebController := webController.NewUserController(userService)
 
 	router := gin.Default()
 	router.Use(cors.Default())
