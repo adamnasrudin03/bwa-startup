@@ -34,7 +34,7 @@ func main() {
 	userService := users.NewService(userRepository)
 	authService := auth.NewService()
 	campaignService := campaign.NewService(campaignRepository)
-	transactionService := transaction.NewService(transactinRepository)
+	transactionService := transaction.NewService(transactinRepository, campaignRepository)
 
 	userController := controllers.NewUserController(userService, authService)
 	campaignController := controllers.NewCampaignController(campaignService)

@@ -3,6 +3,7 @@ package controllers
 import (
 	"bwa-startup/helpers"
 	"bwa-startup/transaction"
+	"bwa-startup/users"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,9 @@ func (h *transactionController) GetCampaignTransaction (c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	
+	currentUser := c.MustGet("currentUser").(users.User)
+	input.User = currentUser
 
 	transactions, err := h.service.GetTransactionByCampaignId(input)
 	if err != nil {
