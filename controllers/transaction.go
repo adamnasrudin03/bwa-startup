@@ -73,7 +73,7 @@ func (h *transactionController) CreateTransaction (c *gin.Context) {
 	}
 	
 	currentUser := c.MustGet("currentUser").(users.User)
-	input.User.ID = currentUser.ID
+	input.User = currentUser
 
 	newTransaction, err := h.service.CreateTransaction(input)
 	if err != nil {
