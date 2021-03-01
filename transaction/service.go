@@ -13,7 +13,7 @@ func NewService(repository Repository) *service {
 }
 
 func (s *service) GetTransactionByCampaignId(input GetTransactionByCampaignIdInput) ([]Transaction, error) {
-	transactions, err := s.repository.GetCampaignById(input.ID)
+	transactions, err := s.repository.GetByCampaignId(input.ID)
 	if err != nil {
 		return transactions, err
 	}
