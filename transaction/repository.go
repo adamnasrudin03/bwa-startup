@@ -28,8 +28,8 @@ func (r *repository) GetByCampaignId(campaignID int) ( []Transaction, error ) {
 func (r *repository) GetByUserId(userID int) ([]Transaction, error) {
 	var transactions []Transaction
 	//preload [load data realasi ke campaign lalu ke campaign images, yg di load
-	// di campaign images is_primary == 1]
-	err := r.db.Preload("Campaign.CampaignImages", "campaign_images.is_primary == 1").Where("user_id = ?", userID).Order("id desc").Find(&transactions).Error
+	// di campaign images is_primary = 1]
+	err := r.db.Preload("Campaign.CampaignImages", "campaign_images.is_primary = 1").Where("user_id = ?", userID).Order("id desc").Find(&transactions).Error
 	if err != nil {
 		return transactions, err
 	}
