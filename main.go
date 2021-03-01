@@ -60,6 +60,7 @@ func main() {
 
 
 	api.GET("/campaigns/:id/transactions", authMiddleware(authService, userService), transactionController.GetCampaignTransaction)
+	api.GET("/transactions", authMiddleware(authService, userService), transactionController.GetUserTransaction)
 
 	router.Run()
 
