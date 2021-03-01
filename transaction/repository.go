@@ -6,8 +6,8 @@ type repository struct {
 	db *gorm.DB
 }
 type Repository interface {
-	GetByCampaignId(campaignID int) ( []Transaction, error )
-	GetByUserId(userID int) ([]Transaction, error)
+	GetByCampaignID(campaignID int) ( []Transaction, error )
+	GetByUserID(userID int) ([]Transaction, error)
 	Save(transaction Transaction) (Transaction, error)
 
 }
@@ -16,7 +16,7 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) GetByCampaignId(campaignID int) ( []Transaction, error ) {
+func (r *repository) GetByCampaignID(campaignID int) ( []Transaction, error ) {
 	var transactions []Transaction
 	err := r.db.Preload("User").Where("campaign_id = ?", campaignID).Order("id desc").Find(&transactions).Error
 	if err != nil {
@@ -26,7 +26,7 @@ func (r *repository) GetByCampaignId(campaignID int) ( []Transaction, error ) {
 	return transactions, nil
 }
 
-func (r *repository) GetByUserId(userID int) ([]Transaction, error) {
+func (r *repository) GetByUserID(userID int) ([]Transaction, error) {
 	var transactions []Transaction
 	//preload [load data realasi ke campaign lalu ke campaign images, yg di load
 	// di campaign images is_primary = 1]

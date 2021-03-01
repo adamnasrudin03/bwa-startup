@@ -7,8 +7,8 @@ import (
 
 
 type Service interface {
-	GetTransactionByCampaignId(input GetTransactionByCampaignIdInput) ([]Transaction, error)
-	GetTransactionByUserId(userID int) ([]Transaction, error)
+	GetTransactionByCampaignID(input GetTransactionByCampaignIdInput) ([]Transaction, error)
+	GetTransactionByUserID(userID int) ([]Transaction, error)
 	CreateTransaction(input CreateTransactionInput) (Transaction, error)
 }
 
@@ -21,7 +21,7 @@ func NewService(repository Repository, campaignRepository campaign.Repository) *
 	return &service{repository, campaignRepository}
 }
 
-func (s *service) GetTransactionByCampaignId(input GetTransactionByCampaignIdInput) ([]Transaction, error) {
+func (s *service) GetTransactionByCampaignID(input GetTransactionByCampaignIdInput) ([]Transaction, error) {
 	campaign, err := s.campaignRepository.FindById(input.ID)
 	if err != nil {
 		return []Transaction{}, err
@@ -32,7 +32,7 @@ func (s *service) GetTransactionByCampaignId(input GetTransactionByCampaignIdInp
 	}
 	
 	
-	transactions, err := s.repository.GetByCampaignId(input.ID)
+	transactions, err := s.repository.GetByCampaignID(input.ID)
 	if err != nil {
 		return transactions, err
 	}
@@ -40,8 +40,8 @@ func (s *service) GetTransactionByCampaignId(input GetTransactionByCampaignIdInp
 	return transactions, nil
 }
 
-func (s *service)GetTransactionByUserId(userID int) ([]Transaction, error) {
-	transactions, err := s.repository.GetByUserId(userID)
+func (s *service) GetTransactionByUserID(userID int) ([]Transaction, error) {
+	transactions, err := s.repository.GetByUserID(userID)
 	if err != nil {
 		return transactions, err
 	}
