@@ -25,3 +25,8 @@ func (h *userController) Index(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "user_index.html", gin.H{"users": users})
 }
+
+func (h *userController) New(c *gin.Context) {
+	c.HTML(http.StatusOK, "user_new.html", nil)
+}
+
