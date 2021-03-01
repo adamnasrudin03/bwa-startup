@@ -82,6 +82,7 @@ func main() {
 
 	router.GET ("/users", userWebController.Index)
 	router.GET ("/users/new", userWebController.New)
+	router.POST ("/users", userWebController.Create)
 
 	
 	router.Run()
