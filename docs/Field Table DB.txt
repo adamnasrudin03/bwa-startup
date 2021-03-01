@@ -39,6 +39,7 @@
     amount: int
     status: varchar
     code: varchar
+    payment_url: varchar
 	created_at: datetime
 	updated_at: datetime
 
