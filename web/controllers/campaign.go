@@ -4,6 +4,7 @@ import (
 	"bwa-startup/campaign"
 	"bwa-startup/users"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -79,4 +80,20 @@ func (h *campaignController) Create(c *gin.Context) {
 	}
 
 	c.Redirect(http.StatusFound, "/campaigns")
+}
+
+func (h *campaignController) NewImage(c *gin.Context) {
+	idParam := c.Param("id")
+	id, _ := strconv.Atoi(idParam)
+	
+	campaignID := campaign.GetCampaignDetailInput{}
+	campaignID.ID = id
+
+	campaignDetail, err := h.campaignService.GetCampaign(campaignID)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	c.HTML(http.StatusOK, "campaign_image.html", campaignDetail)
 }
