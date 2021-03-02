@@ -19,6 +19,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/multitemplate"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -53,6 +55,9 @@ func main() {
 
 	router := gin.Default()
 	router.Use(cors.Default())
+
+	store := cookie.NewStore([]byte(auth.SECRET_KEY))
+	router.Use(sessions.Sessions("bwastartup", store))
 
 	router.HTMLRender = loadTemplates("./web/templates")
 
