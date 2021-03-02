@@ -3,6 +3,7 @@ package controllers
 import (
 	"bwa-startup/users"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -55,3 +56,18 @@ func (h *userController) Create(c *gin.Context) {
 
 	c.Redirect(http.StatusFound, "/users")
 }
+
+func (h *userController) Edit(c *gin.Context) {
+	idParam := c.Param("id")
+	id, _ := strconv.Atoi(idParam)
+
+	registeredUser, err := h.userService.GetUserById(id)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+
+	c.HTML(http.StatusOK, "user_edit.html", registeredUser)
+}
+
