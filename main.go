@@ -95,6 +95,7 @@ func main() {
 	router.GET ("/campaigns/image/:id", campaignWebController.NewImage)
 	router.POST ("/campaigns/image/:id", campaignWebController.CreateImage)
 	router.GET ("/campaigns/edit/:id", campaignWebController.Edit)
+	router.POST ("/campaigns/update/:id", campaignWebController.Update)
 
 	router.Run()
 }
