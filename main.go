@@ -91,6 +91,7 @@ func main() {
 
 	router.GET ("/campaigns", campaignWebController.Index)
 	router.GET ("/campaigns/new", campaignWebController.New)
+	router.POST ("/campaigns", campaignWebController.Create)
 
 	router.Run()
 }
