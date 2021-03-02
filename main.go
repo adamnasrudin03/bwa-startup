@@ -84,6 +84,7 @@ func main() {
 	router.GET ("/users/new", userWebController.New)
 	router.POST ("/users", userWebController.Create)
 	router.GET ("/users/edit/:id", userWebController.Edit)
+	router.POST ("/users/update/:id", userWebController.Update)
 
 	
 	router.Run()
