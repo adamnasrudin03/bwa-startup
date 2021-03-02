@@ -87,24 +87,24 @@ func main() {
 	api.POST("/transactions/notification", transactionController.GetNotification)
 
 
-	router.GET ("/users", userWebController.Index)
-	router.GET ("/users/new", userWebController.New)
-	router.POST ("/users", userWebController.Create)
-	router.GET ("/users/edit/:id", userWebController.Edit)
-	router.POST ("/users/update/:id", userWebController.Update)
-	router.GET ("/users/avatar/:id", userWebController.NewAvatar)
-	router.POST ("/users/avatar/:id", userWebController.CreateAvatar)
+	router.GET ("/users", authAdminMiddleware(), userWebController.Index)
+	router.GET ("/users/new", authAdminMiddleware(), userWebController.New)
+	router.POST ("/users", authAdminMiddleware(), userWebController.Create)
+	router.GET ("/users/edit/:id", authAdminMiddleware(), userWebController.Edit)
+	router.POST ("/users/update/:id", authAdminMiddleware(), userWebController.Update)
+	router.GET ("/users/avatar/:id", authAdminMiddleware(), userWebController.NewAvatar)
+	router.POST ("/users/avatar/:id", authAdminMiddleware(), userWebController.CreateAvatar)
 
-	router.GET ("/campaigns", campaignWebController.Index)
-	router.GET ("/campaigns/new", campaignWebController.New)
-	router.POST ("/campaigns", campaignWebController.Create)
-	router.GET ("/campaigns/image/:id", campaignWebController.NewImage)
-	router.POST ("/campaigns/image/:id", campaignWebController.CreateImage)
-	router.GET ("/campaigns/edit/:id", campaignWebController.Edit)
-	router.POST ("/campaigns/update/:id", campaignWebController.Update)
-	router.GET ("/campaigns/show/:id", campaignWebController.Show)
+	router.GET ("/campaigns", authAdminMiddleware(), campaignWebController.Index)
+	router.GET ("/campaigns/new", authAdminMiddleware(), campaignWebController.New)
+	router.POST ("/campaigns", authAdminMiddleware(), campaignWebController.Create)
+	router.GET ("/campaigns/image/:id", authAdminMiddleware(), campaignWebController.NewImage)
+	router.POST ("/campaigns/image/:id", authAdminMiddleware(), campaignWebController.CreateImage)
+	router.GET ("/campaigns/edit/:id", authAdminMiddleware(), campaignWebController.Edit)
+	router.POST ("/campaigns/update/:id", authAdminMiddleware(), campaignWebController.Update)
+	router.GET ("/campaigns/show/:id", authAdminMiddleware(), campaignWebController.Show)
 
-	router.GET ("/transactions", transactionWebController.Index)
+	router.GET ("/transactions", authAdminMiddleware(), transactionWebController.Index)
 
 	router.Run()
 }
@@ -155,7 +155,19 @@ func authMiddleware(authService auth.Service, userService users.Service) gin.Han
 	}
 }
 
+func authAdminMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		sessions := sessions.Default(c)
 
+		userIDSessions := sessions.Get("userID")
+
+		if userIDSessions == nil {
+			c.Redirect(http.StatusFound, "/login")
+			return
+		}
+
+	}
+}
 
 func loadTemplates(templatesDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
