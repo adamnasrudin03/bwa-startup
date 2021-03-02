@@ -152,7 +152,7 @@ func (h *campaignController) UploadCampaignImage(c *gin.Context) {
 	input.User = currentUser
 	userID := currentUser.ID
 
-	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
+	path := fmt.Sprintf("images/%s-%d-%s", "campaign", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
