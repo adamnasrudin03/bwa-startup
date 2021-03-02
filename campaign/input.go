@@ -1,6 +1,6 @@
 package campaign
 
-import "bwa-startup/users"
+import "bwa-startup/users"	
 
 type GetCampaignDetailInput struct {
 	ID int `uri:"id" binding:"required"`
@@ -19,4 +19,16 @@ type CreateCampaignImageInput struct {
 	CampignID int `form:"campaign_id" binding:"required"`
 	IsPrimary bool `form:"is_primary"`
 	User      users.User
+}
+
+
+type FormCreateCampaignInput struct {
+	Name             string `form:"name" binding:"required"`
+	ShortDescription string `form:"short_description" binding:"required"`
+	Description      string `form:"description" binding:"required"`
+	GoalAmount       int    `form:"goal_amount" binding:"required"`
+	Perks            string `form:"perks" binding:"required"`
+	UserID           int    `form:"user_id" binding:"required"`
+	Users            []users.User
+	Error            error
 }

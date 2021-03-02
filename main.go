@@ -48,7 +48,7 @@ func main() {
 	transactionController := controllers.NewTransactionController(transactionService)
 
 	userWebController := webController.NewUserController(userService)
-	campaignWebController := webController.NewcampaignController(campaignService)
+	campaignWebController := webController.NewcampaignController(campaignService, userService)
 
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -90,6 +90,7 @@ func main() {
 	router.POST ("/users/avatar/:id", userWebController.CreateAvatar)
 
 	router.GET ("/campaigns", campaignWebController.Index)
+	router.GET ("/campaigns/new", campaignWebController.New)
 
 	router.Run()
 }
