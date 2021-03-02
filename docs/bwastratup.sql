@@ -98,8 +98,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `occupation`, `email`, `password_hash`, `avatar_file_name`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Adam', 'Programmer', 'email@gmail.com', '$2a$04$QH.piCOpi0F6qBLixKk9weVlsqwXJXnzgF/31atA99TmM5j81iSHe', 'images/1-undraw_profile_pic_ic5t.png', 'user', '2021-02-28 08:27:37', '2021-02-28 08:27:37'),
-(2, 'Adam Nasrudin', 'Mahasiswa', 'email2@gmail.com', '$2a$04$QH.piCOpi0F6qBLixKk9weVlsqwXJXnzgF/31atA99TmM5j81iSHe', '', 'user', '2021-02-28 08:27:37', '2021-02-28 08:27:37');
+(1, 'Adam Nasrudin', 'Programmer', 'email@gmail.com', '$2a$04$QH.piCOpi0F6qBLixKk9weVlsqwXJXnzgF/31atA99TmM5j81iSHe', 'images/1-undraw_profile_pic_ic5t.png', 'admin', '2021-02-28 08:27:37', '2021-02-28 08:27:37'),
+(2, 'Adam ', 'Mahasiswa', 'email2@gmail.com', '$2a$04$QH.piCOpi0F6qBLixKk9weVlsqwXJXnzgF/31atA99TmM5j81iSHe', '', 'user', '2021-02-28 08:27:37', '2021-02-28 08:27:37');
 
 --
 -- Indexes for dumped tables
