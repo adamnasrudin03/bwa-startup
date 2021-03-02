@@ -105,7 +105,13 @@ func (h *userController) NewAvatar(c *gin.Context) {
 	idParam := c.Param("id")
 	id, _ := strconv.Atoi(idParam)
 
-	c.HTML(http.StatusOK, "user_avatar.html", gin.H{"ID": id})
+	registeredUser, err := h.userService.GetUserById(id)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	c.HTML(http.StatusOK, "user_avatar.html", registeredUser)
 }
 
 func (h *userController) CreateAvatar(c *gin.Context) {
