@@ -52,6 +52,7 @@ func main() {
 	userWebController := webController.NewUserController(userService)
 	campaignWebController := webController.NewcampaignController(campaignService, userService)
 	transactionWebController := webController.NewTransactionController(transactionService)
+	sessionWebController := webController.NewSessionController(userService)
 
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -105,6 +106,8 @@ func main() {
 	router.GET ("/campaigns/show/:id", authAdminMiddleware(), campaignWebController.Show)
 
 	router.GET ("/transactions", authAdminMiddleware(), transactionWebController.Index)
+
+	router.GET("/login", sessionWebController.New)
 
 	router.Run()
 }
