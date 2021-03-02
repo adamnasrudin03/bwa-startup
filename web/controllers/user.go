@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bwa-startup/users"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -105,4 +106,31 @@ func (h *userController) NewAvatar(c *gin.Context) {
 	id, _ := strconv.Atoi(idParam)
 
 	c.HTML(http.StatusOK, "user_avatar.html", gin.H{"ID": id})
+}
+
+func (h *userController) CreateAvatar(c *gin.Context) {
+	idParam := c.Param("id")
+	userID, _ := strconv.Atoi(idParam)
+
+	file, err := c.FormFile("avatar")
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
+
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	_, err = h.userService.SaveAvatar(userID, path)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	c.Redirect(http.StatusFound, "/users")
 }
