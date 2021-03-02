@@ -3,6 +3,7 @@ package controllers
 import (
 	"bwa-startup/campaign"
 	"bwa-startup/users"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -85,15 +86,59 @@ func (h *campaignController) Create(c *gin.Context) {
 func (h *campaignController) NewImage(c *gin.Context) {
 	idParam := c.Param("id")
 	id, _ := strconv.Atoi(idParam)
-	
-	campaignID := campaign.GetCampaignDetailInput{}
-	campaignID.ID = id
 
-	campaignDetail, err := h.campaignService.GetCampaign(campaignID)
+	campaignDetail, err := h.campaignService.GetCampaign(campaign.GetCampaignDetailInput{ID: id})
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error.html", nil)
 		return
 	}
 
 	c.HTML(http.StatusOK, "campaign_image.html", campaignDetail)
+}
+
+func (h *campaignController) CreateImage(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	idParam := c.Param("id")
+	id, _ := strconv.Atoi(idParam)
+
+	existingCampaign, err := h.campaignService.GetCampaign(campaign.GetCampaignDetailInput{ID: id})
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	userID := existingCampaign.UserID
+
+	path := fmt.Sprintf("images/%s-%d-%s", "campaign", userID, file.Filename)
+
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	createCampaignImageInput := campaign.CreateCampaignImageInput{}
+	createCampaignImageInput.CampaignID = id
+	createCampaignImageInput.IsPrimary = true
+
+	userCampaign, err := h.userService.GetUserById(userID)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	createCampaignImageInput.User = userCampaign
+
+	_, err = h.campaignService.CreateImage(createCampaignImageInput, path)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", nil)
+		return
+	}
+
+	c.Redirect(http.StatusFound, "/campaigns")
 }

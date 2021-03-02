@@ -93,6 +93,7 @@ func main() {
 	router.GET ("/campaigns/new", campaignWebController.New)
 	router.POST ("/campaigns", campaignWebController.Create)
 	router.GET ("/campaigns/image/:id", campaignWebController.NewImage)
+	router.POST ("/campaigns/image/:id", campaignWebController.CreateImage)
 
 	router.Run()
 }
