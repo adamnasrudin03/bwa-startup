@@ -109,6 +109,7 @@ func main() {
 
 	router.GET("/login", sessionWebController.New)
 	router.POST("/session", sessionWebController.Create)
+	router.GET("/logout", sessionWebController.Destroy)
 
 	router.Run()
 }
