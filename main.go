@@ -108,6 +108,7 @@ func main() {
 	router.GET ("/transactions", authAdminMiddleware(), transactionWebController.Index)
 
 	router.GET("/login", sessionWebController.New)
+	router.POST("/session", sessionWebController.Create)
 
 	router.Run()
 }
