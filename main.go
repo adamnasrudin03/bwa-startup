@@ -3,13 +3,12 @@ package main
 import (
 	"bwa-startup/auth"
 	"bwa-startup/campaign"
+	"bwa-startup/config"
 	"bwa-startup/controllers"
 	"bwa-startup/helpers"
 	"bwa-startup/payment"
 	"bwa-startup/transaction"
 	"bwa-startup/users"
-	"fmt"
-	"log"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -22,18 +21,10 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 func main() {
-	dsn := "root:@tcp(127.0.0.1:3306)/bwastratup?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	fmt.Println("Connection Database Success!")
+	db := config.Connection()
 
 	userRepository := users.NewRepository(db)
 	campaignRepository := campaign.NewRepository(db)
