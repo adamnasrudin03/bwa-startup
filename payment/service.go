@@ -1,6 +1,7 @@
 package payment
 
 import (
+	"bwa-startup/helpers"
 	"bwa-startup/users"
 	"strconv"
 
@@ -20,9 +21,12 @@ func NewService() *service {
 
 
 func (s *service) GetPaymentURL(transaction Transaction, user users.User) (string, error) {
+	serverKey := helpers.GetKeyValue("MIDTRANS_SERVERKEY", "serverKey")
+	clientKey := helpers.GetKeyValue("MIDTRANS_CLIENTKEY", "clientKey")
+
 	midclient := midtrans.NewClient()
-    midclient.ServerKey = "YOUR-VT-SERVER-KEY"
-    midclient.ClientKey = "YOUR-VT-CLIENT-KEY"
+    midclient.ServerKey = serverKey
+    midclient.ClientKey = clientKey
     midclient.APIEnvType = midtrans.Sandbox
 
     snapGateway := midtrans.SnapGateway {
